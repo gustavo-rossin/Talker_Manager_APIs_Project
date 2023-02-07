@@ -66,23 +66,16 @@ validateWatchedAt,
 validateRate,
 async (req, res) => {
   const talkers = await getTalkers();
-  const { name, age, talk } = req.body;
   const { id } = req.params;
-  const { watchedAt, rate } = talk;
   // console.log(id);
   const indexTalker = talkers.findIndex((json) => +id === json.id);
 
-  talkers[indexTalker] = {
-    name,
-    age,
-    id,
-    talk: { watchedAt, rate },
-  };
+  talkers[indexTalker] = { id: +id, ...req.body };
   // console.log(talkers[indexTalker]);
   const updatedTalkers = JSON.stringify(talkers, null, 2);
   await fs.writeFile(pathTalkers, updatedTalkers);
 
-  res.status(201).json(talkers[indexTalker]);
+  res.status(200).json(talkers[indexTalker]);
 });
 
 module.exports = router;

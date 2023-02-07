@@ -1,6 +1,6 @@
 // const generateToken = require('../utils/generateToken');
 
-const validateAuthorization = async (req, res, next) => {
+const validateAuthorization = (req, res, next) => {
 const { authorization } = req.headers;
   
   // console.log(authorization);

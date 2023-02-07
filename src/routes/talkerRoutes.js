@@ -14,7 +14,7 @@ const pathTalkers = path.resolve(__dirname, '../talker.json');
 
 router.get('/', async (_req, res) => {
   const talkers = await getTalkers();
-  console.log(talkers);
+  // console.log(talkers);
   try {
     if (talkers.length !== 0) {
       return res.status(200).json(talkers);
@@ -28,7 +28,7 @@ router.get('/', async (_req, res) => {
 router.get('/:id', async (req, res) => {
   const talkers = await getTalkers();
   const { id } = req.params;
-  console.log(id);
+  // console.log(id);
   const findTalker = talkers.find((json) => +id === json.id);
   try {
     if (findTalker) {
@@ -55,6 +55,34 @@ async (req, res) => {
   await fs.writeFile(pathTalkers, allTalkers);
 
 res.status(201).json(newTalker);
+});
+
+router.put('/:id',
+validateAuthorization,
+validateName,
+validateAge,
+validateTalk,
+validateWatchedAt,
+validateRate,
+async (req, res) => {
+  const talkers = await getTalkers();
+  const { name, age, talk } = req.body;
+  const { id } = req.params;
+  const { watchedAt, rate } = talk;
+  console.log(id);
+  const indexTalker = talkers.findIndex((json) => +id === json.id);
+
+  talkers[indexTalker] = {
+    name,
+    age,
+    id,
+    talk: { watchedAt, rate },
+  };
+  console.log(talkers[indexTalker]);
+  const updatedTalkers = JSON.stringify(talkers, null, 2);
+  await fs.writeFile(pathTalkers, updatedTalkers);
+
+  res.status(201).json(talkers[indexTalker]);
 });
 
 module.exports = router;

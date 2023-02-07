@@ -24,7 +24,7 @@ async (req, res) => {
     if (!q) {
       res.status(200).send(talkers);
     } 
-    res.status(200).json(filteredQuery);
+    return res.status(200).json(filteredQuery);
 });
 
 router.get('/', async (_req, res) => {

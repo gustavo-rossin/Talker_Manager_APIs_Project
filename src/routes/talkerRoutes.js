@@ -69,7 +69,7 @@ async (req, res) => {
   const { name, age, talk } = req.body;
   const { id } = req.params;
   const { watchedAt, rate } = talk;
-  console.log(id);
+  // console.log(id);
   const indexTalker = talkers.findIndex((json) => +id === json.id);
 
   talkers[indexTalker] = {
@@ -78,7 +78,7 @@ async (req, res) => {
     id,
     talk: { watchedAt, rate },
   };
-  console.log(talkers[indexTalker]);
+  // console.log(talkers[indexTalker]);
   const updatedTalkers = JSON.stringify(talkers, null, 2);
   await fs.writeFile(pathTalkers, updatedTalkers);
 

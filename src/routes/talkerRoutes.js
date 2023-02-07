@@ -22,9 +22,9 @@ async (req, res) => {
   const filteredQuery = talkers.filter((el) => el.name.toLowerCase().includes(q.toLowerCase())); 
   // console.log(filteredQuery);
     if (!q) {
-      res.status(200).send(talkers);
+      return res.status(200).send(talkers);
     } 
-    return res.status(200).json(filteredQuery);
+  res.status(200).json(filteredQuery);
 });
 
 router.get('/', async (_req, res) => {

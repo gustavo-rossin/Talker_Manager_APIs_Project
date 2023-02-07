@@ -78,4 +78,17 @@ async (req, res) => {
   res.status(200).json(talkers[indexTalker]);
 });
 
+router.delete('/:id', 
+validateAuthorization,
+async (req, res) => {
+  const talkers = await getTalkers();
+  const { id } = req.params;
+  const filteredTalkers = talkers.filter((el) => +id !== el.id);
+
+  const updatedTalkers = JSON.stringify(filteredTalkers, null, 2);
+  await fs.writeFile(pathTalkers, updatedTalkers);
+
+  res.status(204).end();
+});
+
 module.exports = router;

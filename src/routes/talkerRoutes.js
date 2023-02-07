@@ -12,6 +12,21 @@ const getTalkers = require('../utils/getTalkers');
 const router = express.Router();
 const pathTalkers = path.resolve(__dirname, '../talker.json');
 
+router.get('/search',
+validateAuthorization,
+async (req, res) => {
+  const { q } = req.query;
+
+  const talkers = await getTalkers();
+
+  const filteredQuery = talkers.filter((el) => el.name.toLowerCase().includes(q.toLowerCase())); 
+  // console.log(filteredQuery);
+    if (!q) {
+      res.status(200).send(talkers);
+    } 
+    res.status(200).json(filteredQuery);
+});
+
 router.get('/', async (_req, res) => {
   const talkers = await getTalkers();
   // console.log(talkers);

@@ -1,20 +1,19 @@
-const checkDates = require('../utils/checkDates');
+// const checkDates = require('../utils/checkDates');
+
+const isFormatDate = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i;
 
 const validateWatchedAt = (req, res, next) => {
   const { talk } = req.body;
-  const { watchedAt } = talk;
 
-  if (!talk) res.status(400).json({ message: 'O campo "talk" é obrigatório' });
-
-  if (!watchedAt) {
-    res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
+  if (!talk.watchedAt) {
+    return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
   }
 
-  if (!checkDates(watchedAt)) {
-    res.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
+  if (!isFormatDate.test(talk.watchedAt)) {
+    return res.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
     }
 
-  return next();
+  next();
 };
 
 module.exports = validateWatchedAt;

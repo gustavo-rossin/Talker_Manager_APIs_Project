@@ -5,6 +5,7 @@ const validateAge = require('../middlewares/validateAge');
 const validateAuthorization = require('../middlewares/validateAuthorization');
 const validateName = require('../middlewares/validateName');
 const validateRate = require('../middlewares/validateRate');
+const validateTalk = require('../middlewares/validateTalk');
 const validateWatchedAt = require('../middlewares/validateWatchedAt');
 const getTalkers = require('../utils/getTalkers');
 
@@ -42,6 +43,7 @@ router.post('/',
 validateAuthorization,
 validateName,
 validateAge,
+validateTalk,
 validateWatchedAt,
 validateRate,
 async (req, res) => {
@@ -52,7 +54,7 @@ async (req, res) => {
 
   await fs.writeFile(pathTalkers, allTalkers);
 
-res.status(201).json(allTalkers);
+res.status(201).json(newTalker);
 });
 
 module.exports = router;

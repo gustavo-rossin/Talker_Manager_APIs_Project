@@ -1,14 +1,17 @@
-const generateToken = require('../utils/generateToken');
+// const generateToken = require('../utils/generateToken');
 
 const validateAuthorization = async (req, res, next) => {
-  const authorization = await generateToken();
+const { authorization } = req.headers;
   
   // console.log(authorization);
 
-  if (!authorization) res.status(401).json({ message: 'Token não encontrado' });
+  if (!authorization) {
+    return res.status(401).json({ message: 'Token não encontrado' });
+  }
 
-  if (authorization.length !== 16) res.status(401).json({ message: 'Token inválido' });
-
+  if (authorization.length !== 16) {
+    return res.status(401).json({ message: 'Token inválido' });
+  }
   next();
 };
 
